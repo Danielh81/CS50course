@@ -1,42 +1,85 @@
 #include <cs50.h>
 #include <stdio.h>
 
-int main(void) 
+int main(void)
 {
-    long card;
+
+    long enteredNumber;
+    long cardNumber;
+
     do
     {
-        card = get_long("Card Number: ");
+        enteredNumber = get_long("Card Number: ");
+    } while (enteredNumber <= 0);
+
+    int cardNumberLength = 0;
+    long cardNumberToDetermineLength = enteredNumber;
+
+    while (cardNumberToDetermineLength != 0)
+    {
+        cardNumberToDetermineLength = cardNumberToDetermineLength / 10;
+        ++cardNumberLength;
+    };
+
+    int orangeNumberSum = 0;
+    int blueNumberSum = 0;
+    long cardNumberToDetermineCheckNumber = enteredNumber;
+
+    while (cardNumberToDetermineCheckNumber > 0)
+    {
+        printf("orange: %li\n", cardNumberToDetermineCheckNumber % 10);
+        printf("blue: %li\n", cardNumberToDetermineCheckNumber % 100 / 10);
+        cardNumberToDetermineCheckNumber = cardNumberToDetermineCheckNumber / 100;
+        for (int i = 0; i < cardNumberLength; i++)
+        {
+            
+        }
     }
-    while (card < 0);
 
-    int digit1, digit2, digit3, digit4, digit5, digit6, digit7, digit8;
 
-    digit1 = (card % 100 / 10) * 2;
-    digit2 = (card % 10000 / 1000) * 2;
-    digit3 = (card % 1000000 / 100000) * 2;
-    digit4 = (card % 100000000 / 10000000) * 2;
-    digit5 = (card % 10000000000 / 1000000000) * 2;
-    digit6 = (card % 1000000000000 / 100000000000) * 2;
-    digit7 = (card % 100000000000000 / 10000000000000) * 2;
-    digit8 = (card % 10000000000000000 / 1000000000000000) * 2;
 
-    int sum1 = digit1 + digit2 + digit3 + digit4 + digit5 + digit6 + digit7 + digit8;
 
-    int digit9, digit10, digit11, digit12, digit13, digit14, digit15, digit16;
 
-    digit9 = (card % 10);
-    digit10 = (card % 1000 / 100);
-    digit11 = (card % 100000 / 10000);
-    digit12 = (card % 10000000 / 1000000);
-    digit13 = (card % 1000000000 / 100000000);
-    digit14 = (card % 100000000000 / 10000000000);
-    digit15 = (card % 10000000000000 / 1000000000000);
-    digit16 = (card % 1000000000000000 / 100000000000000);
+    printf("length of number = %i\n", cardNumberLength);
+    printf("CC = %li\n", enteredNumber);
+    printf("cardNumberToDetermineLength = %li\n", cardNumberToDetermineLength);
+    printf("orangeSum: %i\n", orangeNumberSum);
 
-    int sum2 = digit9 + digit10 + digit11 + digit12 + digit13 + digit14 + digit15 + digit16;
+    // int length;
 
-    int sumGes = sum1 + sum2;
+    // do
+    // {
+    //     length = get_int("Length: ");
+    // }
+    // while (length < 1);
 
-    printf("Prüfzahl = %i\n", sumGes);
+    // int twice[length];
+    // twice[0] = 1;
+    // printf("%i\n", twice[0]);
+
+    // for (int i = 1; i < length; i++)
+    // {
+    //     twice[i] = 2 * twice[i - 1];
+    //     printf("%i\n", twice[i]);
+    // }
+
+    /* TODO
+    1. eingegebene Nummer in ein Variable speichern
+    2. for Schleife erstelle
+    3. in der while Schleife auf den VORletzten Wert zugreifen  (i-1 ODER % Modulo (bei Modulo / 10 um keine Komma Zahl zu bekommen))
+    3.a Zahl * 2 rechnen
+    4. 2 Zahlen weiter springen, ... bis zum Anfang des Arrays
+    4.a  Wenn Zahl über 9, dann die Zahl Stelle 1 + Stelle 2 (zB 12 wäre dann 1+2)
+    5. Summe der Zahlen speichern
+    6. neue Schleife, diesmal letzte Zahl zuerst
+    7. 2 Zahlen weiter springen... bis zur ersten Zahl hin
+    7.a Alle Zahlen addieren (diesmal keine Multiplikation)
+    8. Summe von Schleife 1 + Summe von Schleife 2 addieren.
+
+    9. Wenn Abfragen zum überprüfen ob Prüfzahl korrekt = Endet Summe der Schleife 1+2 mit einer 0, dann korrekt (durch 10 teilbar)
+    9.a Wenn erste Zahl der Kartennummer 4 && Anzahl der Zahlen 13 || 16 dann VISA
+    9.b Wenn ersten Zahlen der Kartennummer 34 oder 37 && Anzahl der Zahlen 15 dann AMEX
+    9.c Wenn ersten Zahlen der Kartennummer 51 - 55 && Anzahl der Zahlen 16 Zahlen, dann Mastercard
+
+    */
 }
