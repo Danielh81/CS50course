@@ -39,25 +39,20 @@ int main(void)
 
     while (cardNumberToDetermineCheckNumber > 0)
     {
-        printf("orange: %li\n", cardNumberToDetermineCheckNumber % 10);
-        printf("blue: %li\n", cardNumberToDetermineCheckNumber % 100 / 10);
         orangeNumberSum = orangeNumberSum + (cardNumberToDetermineCheckNumber % 10);
 
         if (2 * (cardNumberToDetermineCheckNumber % 100 / 10) > 9)
         {
 
             int doubleSumBlue = 2 * (cardNumberToDetermineCheckNumber % 100 / 10);
-            printf("doubleSumBlue: %i\n", doubleSumBlue);
             int sumOfDoubleSumIfOverTen = 0;
 
             while (doubleSumBlue)
             {
-                printf("!!!!%d\n", doubleSumBlue % 10);
                 sumOfDoubleSumIfOverTen = sumOfDoubleSumIfOverTen + (doubleSumBlue % 10);
                 doubleSumBlue /= 10;
             }
                 blueNumberSum = blueNumberSum + sumOfDoubleSumIfOverTen;
-                printf("sumOfDoubleSumIfOverTen: %i\n", sumOfDoubleSumIfOverTen);
         }
 
         else 
@@ -66,11 +61,7 @@ int main(void)
             blueNumberSum = blueNumberSum + doubleSumBlue;
         }
         
-        printf("orangeSum11: %i\n", orangeNumberSum);
-        printf("blueSum11: %i\n", blueNumberSum);
         checkSum = orangeNumberSum + blueNumberSum;
-        printf("CheckSum: %i\n", checkSum);
-
         cardNumberToDetermineCheckNumber = cardNumberToDetermineCheckNumber / 100;
     }   
 
@@ -114,6 +105,8 @@ int main(void)
             /*
 
             HELP
+
+            Number: 123456789
 
             // 1   3   5   7   9    - orange loop
             //     2   4   6   8    - blue loop
