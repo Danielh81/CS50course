@@ -33,6 +33,8 @@ int main(void)
 
     int card9, card10, card11, card12, card13, card14, card15, card16;
 
+    const farbe = 0;
+
     card9 = (card % 10);
     card10 = ((card % 1000)/100);
     card11 = ((card % 100000)/10000);
