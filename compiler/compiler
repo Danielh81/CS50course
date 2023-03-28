@@ -1,0 +1,5 @@
+//   clang -lcs50 -o debug debug.c
+
+//alias compile = "clang -lcs50 -o debug debug.c"
+
+// gespeichert über----       code ~/.zshrc 
