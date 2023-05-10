@@ -21,7 +21,10 @@ int candidate_count;
 
 // Function prototypes
 bool vote(string name);
+
 void print_winner(void);
+
+void printCandidateCounts();
 
 int main(int argc, string argv[])
 {
@@ -39,42 +42,42 @@ int main(int argc, string argv[])
         printf("Maximum number of candidates is %i\n", MAX);
         return 2;
     }
-    for (int i = 0; i < candidate_count; i++)
+
+    for (int i = 0 ; i < candidate_count; i++)
     {
         candidates[i].name = argv[i + 1];
         candidates[i].votes = 0;
-        printf("%s\n", candidates[i].name);
-
     }
-        printf("::%s\n", candidates[1].name);
+    
+    for (int i = 0; i < candidate_count; i++)
+        {
+            for (int j = 0; j < candidate_count; j++)
+            {
+                bool isUnequal = i != j;
+                bool candidateNamesAreEqual = strcmp(candidates[j].name, candidates[i].name) == 0;
+                if (candidateNamesAreEqual && isUnequal)
+                {
+                    printf("Name must be unique\n");
+                    return 2;
+                }
+            }
+        }
 
     int voter_count = get_int("Number of voters: ");
 
     // Loop over all voters
-    for (int i = 0; i < voter_count; i++)
+    for (int currentVote = 0; currentVote < voter_count; currentVote++)
     {
-        string name = get_string("Vote: ");
-
-        // Check for invalid vote
-        if (!vote(candidates[i].name))
+        string candidateToBeVoted = get_string("Vote: ");        
+        
+        if (!vote(candidateToBeVoted)) 
         {
-            printf("Invalid vote.\n");
-            i--;
-            continue;
+            printf("Invalid Vote, plz try again. %i\n", currentVote);
+            currentVote--;
         }
-        else
-        {
-            candidates[i].votes++;
-            printf(": %i", candidates[i].votes);
-        }
-
-        // if (vote(name))
-        // {
-        //     printf("name");
-        // }
-
     }
 
+    printCandidateCounts();
     // Display winner of election
     print_winner();
 }
@@ -82,13 +85,83 @@ int main(int argc, string argv[])
 // Update vote totals given a new vote
 bool vote(string name)
 {
-    // TODO
+    for (int counter = 0; counter < candidate_count; counter++) 
+        {
+            int votesCounter = candidates[counter].votes;
+            bool areNamesEquals = strcmp (name, candidates[counter].name) == 0;
+            if (areNamesEquals)
+            {
+                candidates[counter].votes ++;
+
+                printf("%s - %s: %i\n", name, candidates[counter].name, candidates[counter].votes);
+                printf("---\n");
+
+                return true;
+            }
+
+            printf("%s - %s: %i\n", name, candidates[counter].name, candidates[counter].votes);
+
+        }
+
     return false;
 }
 
 // Print the winner (or winners) of the election
-void print_winner(void)
+void print_winner()
 {
-    // TODO
-    return;
+    int maxVotes = 0;
+    int winnerCounter = 0;
+    string winners[MAX];
+
+    for (int counter = 0; counter < candidate_count; counter++) 
+        {
+            if (candidates[counter].votes > maxVotes) 
+            {
+                maxVotes = candidates[counter].votes;
+                winners[winnerCounter] = candidates[counter].name;
+                continue;
+            }
+
+            if (candidates[counter].votes == maxVotes)
+            {
+                string currentCandidate = candidates[counter].name;
+                for (int equalCounter = counter; counter < candidate_count; counter++)
+                {
+                    if (candidates[counter].votes > maxVotes)
+                    {
+                        maxVotes = candidates[counter].votes;
+                        winners[winnerCounter] = candidates[counter].name;
+                        break;
+                    }
+
+                    winnerCounter++;
+                    winners[winnerCounter] = currentCandidate;
+                }
+
+            }
+            
+            
+
+        }
+    
+    if (sizeof(winners) == 1) {
+        printf("The winner is %s with %d votes! Gratulation!\n", winners[0], maxVotes);
+
+        return;
+    } else
+    {
+        printf("The winners are: ");
+        for (int winnerCounter = 0; winnerCounter < sizeof(winners) - 1; winnerCounter++) {
+            printf("%s\n", winners[winnerCounter]);
+        }
+    }
+    
+}
+
+void printCandidateCounts() {
+    for (int counter = 0; counter < candidate_count; counter++) 
+        {
+            printf("!!%s: %d\n",candidates[counter].name, candidates[counter].votes);
+        }
+    
 }
