@@ -2,40 +2,29 @@
 #include <stdio.h>
 #include <string.h>
 
-// Max number of candidates
 #define MAX 9
 
-// Candidates have name and vote count
 typedef struct
 {
     string name;
     int votes;
 }
 candidate;
-
-// Array of candidates
 candidate candidates[MAX];
 
-// Number of candidates
 int candidate_count;
-
-// Function prototypes
 bool vote(string name);
-
 void print_winner(void);
-
 void printCandidateCounts();
 
 int main(int argc, string argv[])
 {
-    // Check for invalid usage
     if (argc < 2)
     {
         printf("Usage: plurality [candidate ...]\n");
         return 1;
     }
 
-    // Populate array of candidates
     candidate_count = argc - 1;
     if (candidate_count > MAX)
     {
@@ -64,8 +53,6 @@ int main(int argc, string argv[])
         }
 
     int voter_count = get_int("Number of voters: ");
-
-    // Loop over all voters
     for (int currentVote = 0; currentVote < voter_count; currentVote++)
     {
         string candidateToBeVoted = get_string("Vote: ");        
@@ -76,13 +63,10 @@ int main(int argc, string argv[])
             currentVote--;
         }
     }
-
     printCandidateCounts();
-    // Display winner of election
     print_winner();
 }
 
-// Update vote totals given a new vote
 bool vote(string name)
 {
     for (int counter = 0; counter < candidate_count; counter++) 
@@ -92,76 +76,50 @@ bool vote(string name)
             if (areNamesEquals)
             {
                 candidates[counter].votes ++;
-
                 printf("%s - %s: %i\n", name, candidates[counter].name, candidates[counter].votes);
                 printf("---\n");
 
                 return true;
             }
-
             printf("%s - %s: %i\n", name, candidates[counter].name, candidates[counter].votes);
-
         }
-
     return false;
 }
 
-// Print the winner (or winners) of the election
 void print_winner()
 {
     int maxVotes = 0;
     int winnerCounter = 0;
-    string winners[MAX];
+    string winners[candidate_count];
+    for (int counter = 0; counter < candidate_count; counter++) 
+    {
+        if (candidates[counter].votes > maxVotes) 
+        {
+            maxVotes = candidates[counter].votes;
+            winners[winnerCounter] = candidates[counter].name;
+            
+            continue;
+        }
+    }
 
     for (int counter = 0; counter < candidate_count; counter++) 
-        {
-            if (candidates[counter].votes > maxVotes) 
-            {
-                maxVotes = candidates[counter].votes;
-                winners[winnerCounter] = candidates[counter].name;
-                continue;
-            }
-
-            if (candidates[counter].votes == maxVotes)
-            {
-                string currentCandidate = candidates[counter].name;
-                for (int equalCounter = counter; counter < candidate_count; counter++)
-                {
-                    if (candidates[counter].votes > maxVotes)
-                    {
-                        maxVotes = candidates[counter].votes;
-                        winners[winnerCounter] = candidates[counter].name;
-                        break;
-                    }
-
-                    winnerCounter++;
-                    winners[winnerCounter] = currentCandidate;
-                }
-
-            }
-            
-            
-
-        }
-    
-    if (sizeof(winners) == 1) {
-        printf("The winner is %s with %d votes! Gratulation!\n", winners[0], maxVotes);
-
-        return;
-    } else
     {
-        printf("The winners are: ");
-        for (int winnerCounter = 0; winnerCounter < sizeof(winners) - 1; winnerCounter++) {
-            printf("%s\n", winners[winnerCounter]);
+        if (candidates[counter].votes == maxVotes && candidates[counter].name != winners[0]) {
+            winnerCounter++;
+            winners[winnerCounter] = candidates[counter].name;
         }
     }
     
+    for (int counter = 0; counter <= winnerCounter; counter++) 
+    {
+        printf("The winner is %s with %d votes!\n", winners[counter], maxVotes);
+    }
 }
 
-void printCandidateCounts() {
+void printCandidateCounts() 
+{
     for (int counter = 0; counter < candidate_count; counter++) 
         {
-            printf("!!%s: %d\n",candidates[counter].name, candidates[counter].votes);
+            printf("%s: %d\n",candidates[counter].name, candidates[counter].votes);
         }
-    
 }
